@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<launch>
+
+<group ns="blurr">  
+
+    <!-- camera interface -->
+    <node type="camera_node" pkg="libuvc_camera" name="camera" respawn="true" output="screen">
+        <rosparam file="$(find blurr)/config/cam_air.yaml" command="load" ns="calibration"/>
+        <param name="width" value="640"/>
+        <param name="height" value="480"/>
+        <param name="framerate" value="20"/>
+        <param name="index" value="0"/>
+        <param name="video_mode" value="mjpeg"/>
+        <param name="only_compressed" value="true"/>
+    </node>
+
+</group>
+</launch>

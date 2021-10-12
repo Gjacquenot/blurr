@@ -1,0 +1,3 @@
+[submodule "scripts/ms5837-python"]
+	path = scripts/ms5837-python
+	url = https://github.com/bluerobotics/ms5837-python.git
