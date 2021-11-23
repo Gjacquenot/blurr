@@ -14,26 +14,26 @@ using std_msgs::msg::Float32;
 using navio2_ros::PWM_Base;
 using namespace std::chrono_literals;
 
-// force -> pwm map
-constexpr auto forces{std::array{-40., -35.5, -28.5, -22.2, -16.1, -10., -5.1, -1.1, 0., 0., 1.8, 6.2, 12.2, 19.2, 26.4, 33.8, 41.1, 49.9}};
-constexpr auto forces_pwm{std::array{1100.f, 1150.f, 1200.f, 1250.f, 1300.f, 1350.f, 1400.f, 1450.f, 1480.f, 1520.f, 1550.f, 1600.f, 1650.f, 1700.f, 1750.f, 1800.f, 1850.f, 1900.f}};
-static_assert (forces.size() == forces_pwm.size(), "force/pwm map should have same sizes");
+// velocity -> pwm map from BlueRobotics @ 16 V
+constexpr auto velocities{std::array{-362.82,-336.69,-299.99,-265.21,-224.11,-180.25,-130.49,-63.83,0.0,0.0,63.0,129.54,180.06,222.91,263.67,302.43,340.46,370.02}};
+constexpr auto pwm{std::array{1100.f, 1150.f, 1200.f, 1250.f, 1300.f, 1350.f, 1400.f, 1450.f, 1480.f, 1520.f, 1550.f, 1600.f, 1650.f, 1700.f, 1750.f, 1800.f, 1850.f, 1900.f}};
+static_assert (velocities.size() == pwm.size(), "vel/pwm map should have same sizes");
 
 constexpr auto watchdog_period{1};
 
 float interpPWM(double v)
 {
   // no extrapolation
-  if(v <= forces.front())
-    return forces_pwm.front();
-  else if(v >=forces.back())
-    return forces_pwm.back();
+  if(v <= velocities.front())
+    return pwm.front();
+  else if(v >=velocities.back())
+    return pwm.back();
 
   uint i = 0;
-  while ( v > forces[i+1] ) i++;
+  while ( v > velocities[i+1] ) i++;
 
-  const auto xL = forces[i], xR = forces[i+1];
-  const auto yL = forces_pwm[i], yR = forces_pwm[i+1];
+  const auto xL = velocities[i], xR = velocities[i+1];
+  const auto yL = pwm[i], yR = pwm[i+1];
   return yL + ( yR - yL ) / ( xR - xL ) * ( v - xL );
 }
 
@@ -94,14 +94,14 @@ private:
   void readThrusters(const JointState &msg)
   {
     thruster_time = now().seconds();
-    const static std::vector<std::string> names{"thr1", "thr2", "thr3", "thr4", "thr5", "thr6"};
+    const static std::vector<std::string> names{"thruster_0","thruster_1","thruster_2","thruster_3","thruster_4","thruster_5"};
     for(uint i = 0; i<msg.name.size();++i)
     {
       for(uint j = 0; j<6; ++j)
       {
         if(msg.name[i] == names[j])
         {
-          thruster_force[j] = msg.effort[i];
+          thruster_force[j] = msg.velocity[i];
           break;
         }
       }
