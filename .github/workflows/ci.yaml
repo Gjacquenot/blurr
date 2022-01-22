@@ -53,3 +53,8 @@ jobs:
           sudo apt install -y gazebo${{ matrix.gazebo-version }}
           sudo apt install -y libgazebo${{ matrix.gazebo-version }}-dev
           sudo apt install -y ros-${{ matrix.ros_distribution }}-gazebo-ros-pkgs
+
+      - name: Install Dependencies
+        run: |
+          rosdep update
+          rosdep install --from-paths src --ignore-src --rosdistro ${{ matrix.ros_distribution }} -y
