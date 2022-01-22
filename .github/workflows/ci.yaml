@@ -27,9 +27,6 @@ jobs:
           # Foxy Fitzroy (May 2020 - May 2023)
           - docker_image: ros:foxy
             ros_distribution: foxy
-          # Galactic Geochelone (May 2021 - Nov 2022)
-          - docker_image: ros:galactic
-            ros_distribution: galactic
 
     container: ${{ matrix.docker_image }}
 
