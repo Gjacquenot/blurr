@@ -60,3 +60,8 @@ jobs:
         run: |
           rosdep update
           rosdep install --from-paths src --ignore-src --rosdistro ${{ matrix.ros_distribution }} -y
+
+      - name: Build Packages
+        run: |
+          . /opt/ros/${{ matrix.ros_distribution }}/setup.sh
+          colcon build --packages-up-to blurr
