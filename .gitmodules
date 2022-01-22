@@ -1,3 +1,6 @@
 [submodule "scripts/ms5837-python"]
 	path = scripts/ms5837-python
 	url = https://github.com/bluerobotics/ms5837-python.git
+[submodule "navio2_ros"]
+	path = navio2_ros
+	url = https://github.com/gmsanchez/navio2_ros
