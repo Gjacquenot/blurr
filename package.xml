@@ -9,11 +9,11 @@
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
-  
+
   <depend>geometry_msgs</depend>
   <depend>rclcpp</depend>
   <depend>navio2_ros</depend>
-  
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>
