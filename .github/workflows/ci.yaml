@@ -66,5 +66,5 @@ jobs:
       - name: Build Packages
         run: |
           . /opt/ros/${{ matrix.ros_distribution }}/setup.sh
-          cd navio2_ros && catkin build && cd ..
+          cd navio2_ros && catkin init && catkin build && cd ..
           colcon build --packages-up-to blurr
