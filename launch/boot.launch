@@ -2,11 +2,11 @@
 
 <launch>
 
-<group ns="blurr">  
-    
+<group ns="blurr">
+
     <!-- thruster interface -->
     <node name="pwm_interface" pkg="blurr" type="blurr_pwm" respawn="true"/>
-    
+
     <!-- camera interface -->
     <!--node type="raspicam_node" pkg="raspicam_node" name="raspicam" respawn="true">
         <param name="camera_info_url" value="file://$(find blurr)/config/cam_air.yaml"/>
@@ -25,15 +25,15 @@
     </node>
 
     <node type="blurr_adc" pkg="blurr" name="adc_interface" respawn="true" output="screen"/>
-        
+
     <node type="bar30.py" pkg="blurr" name="barometer_interface" respawn="true"/>
-        
-    <!-- robot model / control gains -->        
+
+    <!-- robot model / control gains -->
     <rosparam file="$(find blurr)/config/blurr_real.yaml" command="load"/>
     <param name="robot_description_no_mesh" command="$(find xacro)/xacro $(find blurr)/urdf/blurr.xacro use_mesh:=false"/>
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true">
         <remap from="robot_description" to="robot_description_no_mesh"/>
     </node>
-    
+
 </group>
 </launch>

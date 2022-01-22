@@ -2,7 +2,7 @@
 
 <launch>
 
-<group ns="blurr">  
+<group ns="blurr">
 
     <!-- camera interface -->
     <node type="camera_node" pkg="libuvc_camera" name="camera" respawn="true" output="screen">
