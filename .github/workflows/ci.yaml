@@ -1,0 +1,34 @@
+---
+name: CI
+
+on:  # NOLINT
+  pull_request:
+  push:
+  schedule:
+    - cron: '0 0 */2 * *'  # Every 2 days at midnight
+
+jobs:
+  test_docker:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        gazebo-version: [9, 11]
+        # Define the Docker image(s) associated with each ROS distribution.
+        # The include syntax allows additional variables to be defined, like
+        # docker_image in this case. See documentation:
+        # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#example-including-configurations-in-a-matrix-build
+
+        # Platforms are defined in REP 3, and REP 2000:
+        # https://ros.org/reps/rep-0003.html
+        # https://ros.org/reps/rep-2000.html
+        include:
+          # Foxy Fitzroy (May 2020 - May 2023)
+          - docker_image: ros:foxy
+            ros_distribution: foxy
+
+    container: ${{ matrix.docker_image }}
+
+    defaults:
+      run:
+        shell: bash
